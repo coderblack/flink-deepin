@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="akka-rpc" />
+        <module name="flink-arch" />
         <module name="spi" />
         <module name="spi-common" />
       </profile>

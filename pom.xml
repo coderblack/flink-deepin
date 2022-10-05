@@ -12,6 +12,7 @@
         <module>spi</module>
         <module>spi-common</module>
         <module>akka-rpc</module>
+        <module>flink-arch</module>
     </modules>
 
     <properties>
@@ -42,5 +43,7 @@
 
 
     </dependencies>
+
+
 
 </project>
