@@ -27,7 +27,6 @@ public class ClientInvocationHandler implements InvocationHandler {
         /*Future<Object> future = Patterns.ask(targetRef, message, 1000L);
         String o = (String) AkkaFutureUtils.toJava(future).get();*/
 
-
         targetRef.tell(message,selfRef);
 
         return null;
