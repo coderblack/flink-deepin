@@ -23,6 +23,7 @@ public class TtlTest {
         DataStreamSource<String> s1 = env.socketTextStream("localhost", 9999);
         env.setParallelism(1);
 
+        //
         s1.keyBy(s -> s)
                 .process(new KeyedProcessFunction<String, String, String>() {
 
