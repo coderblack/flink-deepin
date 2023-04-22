@@ -1,9 +1,8 @@
 package cn.doitedu.deepsea;
 
-import org.apache.flink.api.common.state.ListState;
-import org.apache.flink.api.common.state.ListStateDescriptor;
-import org.apache.flink.api.common.state.StateTtlConfig;
+import org.apache.flink.api.common.state.*;
 import org.apache.flink.api.common.time.Time;
+import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
@@ -24,10 +23,17 @@ public class TtlTest {
         env.setParallelism(1);
 
         //
-        s1.keyBy(s -> s)
+        s1.keyBy(new KeySelector<String, String>() {
+                    @Override
+                    public String getKey(String s) throws Exception {
+                        return  s.compareTo("m")<0 ?"a":"b";
+                    }
+                })
                 .process(new KeyedProcessFunction<String, String, String>() {
 
                     ListState<String> state;
+                    MapState<String, Integer> mp_state;
+
                     @Override
                     public void open(Configuration parameters) throws Exception {
 
@@ -40,6 +46,9 @@ public class TtlTest {
                         stateDescriptor.enableTimeToLive(ttlConfig);
 
                         state = getRuntimeContext().getListState(stateDescriptor);
+
+                        mp_state = getRuntimeContext().
+                                getMapState(new MapStateDescriptor<String, Integer>("mp_state", String.class, Integer.class));
 
                     }
 
